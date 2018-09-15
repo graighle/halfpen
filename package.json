@@ -7,7 +7,8 @@
   "scripts": {
     "client": "cd client && npm run start",
     "server": "cd server && npm run start",
-    "dev": "SET DEBUG=halfpen-server:* & concurrently --kill-others-on-fail \"npm run client\" \"npm run server\""
+    "server-dev": "cd server && npm run start-dev",
+    "dev": "SET DEBUG=halfpen-server:* & concurrently --kill-others-on-fail \"npm run client\" \"npm run server-dev\""
   },
   "devDependencies": {
     "concurrently": "^4.0.1"
