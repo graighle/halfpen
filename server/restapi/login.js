@@ -4,20 +4,34 @@ import { Collections, collection } from '../lib/mongo';
 export default function login(req, res, next){
 	try{
 		if(!req.is('application/json'))
-			throw new ErrorResponse({status:400});
+			throw new ErrorResponse({ status: 400 });
 
 		// usersコレクションにid/passwordがあればtokenを生成して返す
 		// TODO:パスワードハッシュ化
 		collection(Collections.USERS)
-			.findOne({id:req.body.id, password:req.body.password})
-			.then(doc => {
-				if(doc === null)
-					throw new ErrorResponse({status:401});
-				return doc;
+			.findOne({
+				id: req.body.id,
+				password: req.body.password
 			})
-			.then(doc => {
+			.then(user => {
+				if(user === null)
+					throw new ErrorResponse({status:401});
+				return user;
+			})
+			.then(user => {
+				return collection(Collections.SESSIONS)
+					.findOneAndUpdate(
+						{ userNo: user.userNo },
+						{ $set: {
+							userNo: user.userNo,
+							token: 'baz'
+						}},
+						{ upsert: true, returnOriginal: false }
+					);
+			})
+			.then(sess => {
 				res.send({
-					accessToken: 'token-sample'
+					accessToken: sess.value.token
 				});
 			})
 			.catch(err => {
