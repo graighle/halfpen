@@ -1,11 +1,16 @@
 import { Collections, collection } from '../lib/mongo';
 
-export default function login(req, res){
+export default function login(req, res, next){
 	try{
+		if(!req.is('application/json')){
+			res.sendStatus(400);
+			return;
+		}
+
 		// usersコレクションにid/passwordがあればtokenを生成して返す
 		// TODO:パスワードハッシュ化
 		collection(Collections.USERS)
-			.findOne({id:req.query.id, password:req.query.password})
+			.findOne({id:req.body.id, password:req.body.password})
 			.then(function(doc){
 				if(doc != null){
 					res.send({
@@ -14,19 +19,15 @@ export default function login(req, res){
 				}else{
 					res.sendStatus(401);
 				}
-			},
-			function(err){
-				console.log('[api/login] ' + err.name + ' : ' + err.message);
-				res.sendStatus(500);
 			})
 			.catch(function(err){
 				console.log('[api/login] ' + err.name + ' : ' + err.message);
-				res.sendStatus(500);
+				next(err);
 			});
 	}
 	catch(err){
 		console.log('[api/login] ' + err.name + ' : ' + err.message);
-		res.sendStatus(500);
+		next(err);
 	}
 }
 

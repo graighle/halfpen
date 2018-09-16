@@ -3,7 +3,7 @@ import login from '../restapi/login';
 
 const router = Router();
 
-router.get('/login', login);
+router.post('/login', login);
 
 export default router;
 
