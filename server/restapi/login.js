@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import ErrorResponse from '../lib/ErrorResponse';
 import { Collections, collection } from '../lib/mongo';
 
@@ -16,22 +17,9 @@ export default function login(req, res, next){
 			.then(user => {
 				if(user === null)
 					throw new ErrorResponse({status:401});
-				return user;
-			})
-			.then(user => {
-				return collection(Collections.SESSIONS)
-					.findOneAndUpdate(
-						{ userNo: user.userNo },
-						{ $set: {
-							userNo: user.userNo,
-							token: 'baz'
-						}},
-						{ upsert: true, returnOriginal: false }
-					);
-			})
-			.then(sess => {
+				const token = jwt.sign(user, req.app.get('jwtSecretToken'), { expiresIn: '24h' });
 				res.send({
-					accessToken: sess.value.token
+					accessToken: token
 				});
 			})
 			.catch(err => {

@@ -5,7 +5,6 @@ const dbName = 'halfpen';
 
 export const Collections = {
 	USERS: 'users',
-	SESSIONS: 'sessions',
 };
 
 var db = null;

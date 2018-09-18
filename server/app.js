@@ -1,9 +1,12 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
+import config from 'config';
 import restapi from './routes/restapi';
 
 const app = express();
+
+app.set('jwtSecretToken', config.jwtSecretToken);
 
 app.use(logger('dev'));
 app.use(express.json());
