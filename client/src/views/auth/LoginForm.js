@@ -16,7 +16,7 @@ const LoginForm = ({ auth, dispatch, history }) => {
 					if(!id.value.trim() || !password.value.trim())
 						return;
 					dispatch(login(id.value, password.value));
-					history.push('/dashboard');
+					//history.push('/dashboard');
 				}}
 			>
 				<input ref={node => id = node} />
