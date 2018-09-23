@@ -9,7 +9,7 @@ const PrivateRoute = ({ auth, component: Component, ...rest }) => (
 	<Route
 		{...rest}
 		render = { props => 
-			auth.token !== '' ? (
+			auth.isLoggedin === true ? (
 				<Component {...props} />
 			) : (
 				<Redirect

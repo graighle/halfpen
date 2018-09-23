@@ -2,11 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 
-import { withRouter } from 'react-router';
+import {
+	withRouter,
+	Redirect
+} from 'react-router';
 
 const LoginForm = ({ auth, dispatch }) => {
 	let id;
 	let password;
+
+	if(auth.isLoggedin)
+		return <Redirect to="/dashboard" />;
 
 	return (
 		<div>
