@@ -1,5 +1,5 @@
 import {
-	LOGIN_TRY,
+	LOGIN,
 	LOGIN_SUCCESS,
 	LOGIN_FAILURE,
 } from '../actions/auth';
@@ -13,7 +13,7 @@ const initialState = {
 export function auth(state = initialState, action){
 	switch(action.type){
 
-		case LOGIN_TRY:
+		case LOGIN:
 			return Object.assign({}, state, {
 				token:	'',
 				isAuthenticating: true,

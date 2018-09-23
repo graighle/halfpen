@@ -4,7 +4,7 @@ import { login } from '../../actions/auth';
 
 import { withRouter } from 'react-router';
 
-const LoginForm = ({ auth, dispatch, history }) => {
+const LoginForm = ({ auth, dispatch }) => {
 	let id;
 	let password;
 
@@ -16,7 +16,6 @@ const LoginForm = ({ auth, dispatch, history }) => {
 					if(!id.value.trim() || !password.value.trim())
 						return;
 					dispatch(login(id.value, password.value));
-					//history.push('/dashboard');
 				}}
 			>
 				<input ref={node => id = node} />
@@ -25,6 +24,8 @@ const LoginForm = ({ auth, dispatch, history }) => {
 					Login
 				</button>
 			</form>
+		<div>{auth.isAuthenticating ? 'Authenticating...' : ''}</div>
+		<div>{auth.isLoginFailed ? 'Login Failed' : ''}</div>
 		</div>
 	);
 };

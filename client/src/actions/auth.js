@@ -1,30 +1,55 @@
 import fetch from 'cross-fetch';
 
-export const LOGIN_TRY		= 'LOGIN_TRY';
+export const LOGIN			= 'LOGIN';
 export const LOGIN_SUCCESS	= 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE	= 'LOGIN_FAILURE';
 
-const loginTry = (id, password) => ({
-	type: LOGIN_TRY,
-	id,
-	password,
+export const login = (id, password) => ({
+	type: LOGIN,
+	halfpen: {
+		api: 'login',
+		apiOptions: {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify({id, password})
+		},
+	},
+	onSuccess: onLoginApiSuccess,
+	onError: loginError,
 });
 
-const loginSuccess = token => ({
+const onLoginApiSuccess = response => {
+	switch(response.status){
+		case 200:
+			return response.json()
+				.then(auth => loginSuccess(auth))
+				.catch(err => loginError());
+		case 401:
+			return loginFailure();
+		default:
+			break;
+	}
+	return loginError();
+};
+
+
+const loginSuccess = auth => ({
 	type: LOGIN_SUCCESS,
-	token,
+	halfpen: {
+		options: {
+			auth,
+		},
+	},
 });
 
 const loginFailure = () => ({
 	type: LOGIN_FAILURE,
 });
 
-export const login = (id, password) => {
-	return (dispatch) => {
-		dispatch(loginTry(id, password));
+const loginError = error => ({
+	type: LOGIN_FAILURE,
+});
 
-		return fetch('http://localhost:5000/api/login')
-			.then(response => dispatch(loginSuccess(response.token)))
-			.catch(err => dispatch(loginFailure('error')));
-	};
-};
