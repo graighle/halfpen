@@ -5,6 +5,7 @@
   "dependencies": {
     "ajv": "^6.5.3",
     "cross-fetch": "^2.2.2",
+    "normalize.css": "^8.0.0",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "react-redux": "^5.0.7",
