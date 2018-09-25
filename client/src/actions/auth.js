@@ -1,53 +1,48 @@
-export const LOGIN			= 'LOGIN';
-export const LOGIN_SUCCESS	= 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE	= 'LOGIN_FAILURE';
+import { API } from '../middleware/HalfpenApiCaller';
+
+export const AuthActions = {
+	LOGIN: API.LOGIN,
+	LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+	LOGIN_FAILURE: 'LOGIN_FAILURE',
+	LOGIN_ERROR: 'LOGIN_ERROR',
+	RESTORE_TOKEN: API.RESTORE_TOKEN,
+	RESTORE_TOKEN_SUCCESS: 'RESTORE_TOKEN_SUCCESS',
+	RESTORE_TOKEN_FAILURE: 'RESTORE_TOKEN_FAILURE',
+};
 
 export const login = (id, password) => ({
-	type: LOGIN,
-	halfpen: {
-		api: 'login',
-		apiOptions: {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-type': 'application/json',
-			},
-			body: JSON.stringify({id, password})
-		},
-	},
-	onSuccess: onLoginApiSuccess,
+	type: AuthActions.LOGIN,
+	id,
+	password,
+	onSuccess: loginSuccess,
+	onFailure: loginFailure,
 	onError: loginError,
 });
 
-const onLoginApiSuccess = response => {
-	switch(response.status){
-		case 200:
-			return response.json()
-				.then(auth => loginSuccess(auth))
-				.catch(err => loginError());
-		case 401:
-			return loginFailure();
-		default:
-			break;
-	}
-	return loginError();
-};
-
-
-const loginSuccess = auth => ({
-	type: LOGIN_SUCCESS,
-	halfpen: {
-		options: {
-			auth,
-		},
-	},
+const loginSuccess = () => ({
+	type: AuthActions.LOGIN_SUCCESS,
 });
 
 const loginFailure = () => ({
-	type: LOGIN_FAILURE,
+	type: AuthActions.LOGIN_FAILURE,
 });
 
 const loginError = error => ({
-	type: LOGIN_FAILURE,
+	type: AuthActions.LOGIN_FAILURE,
+});
+
+export const restoreToken = () => ({
+	type: AuthActions.RESTORE_TOKEN,
+	onSuccess: restoreTokenSuccess,
+	onFailure: restoreTokenFailure,
+	onError: restoreTokenFailure,
+});
+
+const restoreTokenSuccess = () => ({
+	type: AuthActions.RESTORE_TOKEN_SUCCESS,
+});
+
+const restoreTokenFailure = () => ({
+	type: AuthActions.RESTORE_TOKEN_FAILURE,
 });
 

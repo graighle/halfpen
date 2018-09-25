@@ -1,25 +1,77 @@
 import fetch from 'cross-fetch';
 
+export const API = {
+	LOGIN: 'LOGIN',
+	RESTORE_TOKEN: 'RESTORE_TOKEN',
+};
+
 export default function createHalfpenApiCaller(params){
 
 	let options = Object.assign({}, params);
+	let accessToken = '';
+
+	const login = (store, next, action) => {
+		const fetchOptions = {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify({
+				id: action.id,
+				password: action.password,
+			}),
+		};
+
+		fetch(options.url + 'login', fetchOptions)
+			.then(response => {
+				switch(response.status){
+					case 200:
+						response.json()
+							.then(auth => {
+								accessToken = auth.accessToken;
+								localStorage.setItem('accessToken', accessToken);
+								next(action.onSuccess());
+							})
+							.catch(err => next(action.onError()));
+						break;
+
+					case 401:
+						next(action.onFailure());
+						break;
+
+					default:
+						next(action.onError());
+						break;
+				}
+			})
+			.catch(err => next(action.onError()));
+	};
+
+	const restoreToken = (store, next, action) => {
+		const token = localStorage.getItem('accessToken');
+		if(typeof token !== 'undefined' && token !== ''){
+			accessToken = token;
+			next(action.onSuccess());
+		}else{
+			next(action.onFailure());
+		}
+	};
 
 	return store => next => action => {
 		next(action);
 
-		if(action.halfpen){
-			if(action.halfpen.options)
-				options = Object.assign(options, action.halfpen.options);
+		switch(action.type){
+			case API.LOGIN:
+				login(store, next, action);
+				break;
 
-			if(action.halfpen.api){
-				fetch(options.url + action.halfpen.api, action.halfpen.apiOptions)
-					.then(response => action.onSuccess(response))
-					.then(act => store.dispatch(act))
-					.catch(err => {
-						if(action.onError)
-							next(action.onError(err));
-					});
-			}
+			case API.RESTORE_TOKEN:
+				restoreToken(store, next, action);
+				break;
+
+			default:
+				break;
 		}
 	};
 
