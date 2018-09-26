@@ -3,14 +3,19 @@ import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import LoginForm from './views/auth/LoginForm';
-import Header from './views/headers/index.js';
+import Dashboard from './views/Dashboard';
 import 'normalize.css';
+import './styles/layouts';
+import './styles/modules';
+import './styles/states';
+import './styles/themes/default';
 
 const App = () => (
 	<Switch>
-		<PrivateRoute path="/dashboard" component={Header} />
+		<PrivateRoute path="/dashboard" component={Dashboard} />
 		<Route component={LoginForm} />
 	</Switch>
 );
 
 export default App;
+
