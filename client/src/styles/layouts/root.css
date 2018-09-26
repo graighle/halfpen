@@ -2,6 +2,13 @@
 .l-root-header {
 	position: fixed;
 	width: 100%;
-	padding: 0.2em 0.6em;
+	height: 2em;
+	line-height: 2em;
+	padding: 0 0.6em;
+}
+
+/* Root Body */
+.l-root-body {
+	padding-top: 2em;
 }
 

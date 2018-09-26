@@ -4,7 +4,7 @@ import Header from './header/index';
 const Dashboard = () => (
 	<div className="halfpen">
 		<Header />
-		<div>
+		<div className="l-root-body">
 		</div>
 	</div>
 );
