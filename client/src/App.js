@@ -5,6 +5,7 @@ import PrivateRoute from './components/PrivateRoute';
 import LoginForm from './views/auth/LoginForm';
 import Dashboard from './views/Dashboard';
 import 'normalize.css';
+import './styles/base.css';
 import './styles/layouts';
 import './styles/modules';
 import './styles/states';
