@@ -1,0 +1,11 @@
+.t-base-button {
+	color: #333631;
+	background-color: #e9dfe5;
+	border-radius: 6px;
+	border: 2px solid #006e54;
+}
+.t-base-button:hover {
+	color: #ebf6f7;
+	background-color: #38b48b;
+}
+

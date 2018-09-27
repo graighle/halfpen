@@ -1,10 +1,22 @@
 /* Root Header */
 .l-root-header {
 	position: fixed;
+	display: flex;
 	width: 100%;
 	height: 2em;
-	line-height: 2em;
 	padding: 0 0.6em;
+}
+.l-root-header .l-title {
+	flex: none;
+	align-self: center;
+}
+.l-root-header .l-menus {
+	flex: auto;
+	align-self: center;
+}
+.l-root-header .l-options {
+	flex: none;
+	align-self: center;
 }
 
 /* Root Body */
