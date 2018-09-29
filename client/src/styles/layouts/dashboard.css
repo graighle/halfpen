@@ -1,0 +1,18 @@
+.l-dashboard {
+	display: flex;
+	flex-flow: row wrap;
+	padding: 0.5em;
+}
+
+.l-dashboard > .l-panel {
+	margin: 0.5em;
+	width: calc(50% - 1em);
+	height: min-content;
+}
+
+@media (max-width: 799px) {
+	.l-dashboard > .l-panel {
+		width: calc(100% - 1em);
+	}
+}
+

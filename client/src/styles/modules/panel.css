@@ -1,0 +1,9 @@
+.m-panel {
+}
+
+.m-panel > .m-title {
+	padding: 0.5em;
+
+	font-weight: bold;
+}
+
