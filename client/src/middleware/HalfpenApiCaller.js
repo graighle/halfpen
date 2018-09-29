@@ -50,7 +50,7 @@ export default function createHalfpenApiCaller(params){
 
 	const restoreToken = (store, next, action) => {
 		const token = localStorage.getItem('accessToken');
-		if(typeof token !== 'undefined' && token !== ''){
+		if(token){
 			accessToken = token;
 			next(action.onSuccess());
 		}else{
