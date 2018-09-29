@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 
 export const API = {
 	LOGIN: 'LOGIN',
+	LOGOUT: 'LOGOUT',
 	RESTORE_TOKEN: 'RESTORE_TOKEN',
 };
 
@@ -58,6 +59,11 @@ export default function createHalfpenApiCaller(params){
 		}
 	};
 
+	const logout = (store, next, action) => {
+		localStorage.removeItem('accessToken');
+		next(action);
+	};
+
 	return store => next => action => {
 		next(action);
 
@@ -68,6 +74,10 @@ export default function createHalfpenApiCaller(params){
 
 			case API.RESTORE_TOKEN:
 				restoreToken(store, next, action);
+				break;
+
+			case API.LOGOUT:
+				logout(store, next, action);
 				break;
 
 			default:

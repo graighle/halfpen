@@ -8,6 +8,7 @@ export const AuthActions = {
 	RESTORE_TOKEN: API.RESTORE_TOKEN,
 	RESTORE_TOKEN_SUCCESS: 'RESTORE_TOKEN_SUCCESS',
 	RESTORE_TOKEN_FAILURE: 'RESTORE_TOKEN_FAILURE',
+	LOGOUT: API.LOGOUT,
 };
 
 export const login = (id, password) => ({
@@ -44,5 +45,9 @@ const restoreTokenSuccess = () => ({
 
 const restoreTokenFailure = () => ({
 	type: AuthActions.RESTORE_TOKEN_FAILURE,
+});
+
+export const logout = () => ({
+	type: AuthActions.LOGOUT,
 });
 

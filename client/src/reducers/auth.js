@@ -65,6 +65,12 @@ export function auth(state = initialState, action){
 				doRestoreToken: false,
 			});
 
+		case AuthActions.LOGOUT:
+			return Object.assign({}, state, {
+				isLoggedin: false,
+				doRestoreToken: false,
+			});
+
 		default:
 			break;
 	};
