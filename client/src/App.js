@@ -5,6 +5,8 @@ import PrivateRoute from './components/PrivateRoute';
 import LoginForm from './views/auth/LoginForm';
 import Dashboard from './views/dashboard';
 import 'normalize.css';
+import 'vex-js/dist/css/vex.css';
+import 'vex-js/dist/css/vex-theme-default.css';
 import './styles/base.css';
 import './styles/layouts';
 import './styles/modules';
