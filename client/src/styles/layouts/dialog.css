@@ -1,0 +1,17 @@
+/* ダイアログサイズ */
+.l-dialog-content {
+	width: calc(100vw - 4em) !important;
+}
+
+@media (max-width:600px) {
+	.l-dialog-content {
+		width: calc(100vw - 2em) !important;
+	}
+}
+
+@media (min-width:800px) {
+	.l-dialog-content {
+		width: calc(800px - 4em) !important;
+	}
+}
+

@@ -1,0 +1,16 @@
+/* 左右配置 */
+.l-both-ends {
+	display: flex;
+	justify-content: space-between;
+}
+
+/* 横サイズ */
+.l-width-100 {
+	width: 100%;
+}
+
+/* 縦サイズ */
+textarea.l-height-middle {
+	height: 4em;
+}
+
