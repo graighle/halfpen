@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import login from '../restapi/login';
-import { getProjects } from '../restapi/projects';
+import { addTicket } from '../restapi/tickets';
 import tokenCheck from '../lib/tokenCheck';
 import requestCheck from '../lib/requestCheck';
 
@@ -10,6 +10,8 @@ router.post('/login', login);
 
 router.use(requestCheck);
 router.use(tokenCheck);
+
+router.post('/tickets', addTicket);
 
 export default router;
 

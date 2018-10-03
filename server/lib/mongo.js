@@ -5,6 +5,7 @@ const dbName = 'halfpen';
 
 export const Collections = {
 	USERS: 'users',
+	TICKETS: 'tickets',
 };
 
 var db = null;
