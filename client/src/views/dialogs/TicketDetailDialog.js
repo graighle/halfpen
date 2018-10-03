@@ -1,15 +1,16 @@
+const serialize = require('form-serialize');
 const vex = require('vex-js');
 vex.registerPlugin(require('vex-dialog'));
 vex.defaultOptions.className = 'vex-theme-default';
 vex.defaultOptions.contentClassName = 'l-dialog-content t-ticket-background';
 
 class TicketDetailDialog {
-	constructor(){
+	constructor(opts){
 		this.dialog = null;
+		this.options = opts;
 	}
 
-	open(params = {}){
-		const ticket = params.ticket || {};
+	open(ticket = {}){
 		const isAdding = typeof ticket.ticketNo === 'undefined' || ticket.ticketNo === '';
 
 		this.dialog = vex.dialog.open({
@@ -24,6 +25,8 @@ class TicketDetailDialog {
 					text: (isAdding ? 'ADD' : 'SAVE'),
 					className: 'vex-dialog-button-primary',
 					click: () => {
+						this.dialog.value = true;
+						this.save(serialize(this.dialog.form, {hash: true, disabled: true, empty: true}));
 					},
 				},
 				{
@@ -31,10 +34,20 @@ class TicketDetailDialog {
 					text: 'CANCEL',
 					className: 'vex-dialog-button-secondary',
 					click: () => {
+						this.dialog.value = false;
 						this.dialog.close();
 					},
 				},
 			],
+			beforeClose: () => {
+				return !this.dialog.value;
+			},
+		});
+	}
+
+	save(data){
+		this.options.addTicket({
+			title: data.title,
 		});
 	}
 

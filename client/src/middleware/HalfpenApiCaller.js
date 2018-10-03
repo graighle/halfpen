@@ -4,6 +4,7 @@ export const API = {
 	LOGIN: 'LOGIN',
 	LOGOUT: 'LOGOUT',
 	RESTORE_TOKEN: 'RESTORE_TOKEN',
+	CALL: 'HALFPEN_API_CALL',
 };
 
 export default function createHalfpenApiCaller(params){
@@ -64,6 +65,39 @@ export default function createHalfpenApiCaller(params){
 		next(action);
 	};
 
+	const call = (store, next, action) => {
+		const fetchOptions = {
+			method: action.method,
+			headers: {
+				'Accept': 'application/json',
+				'Content-type': 'application/json',
+				'Authorization': 'Bearer ' + accessToken,
+			},
+			body: JSON.stringify(action.data),
+		};
+
+		return
+			fetch(options.url + action.api, fetchOptions)
+				.then(response => {
+					switch(response.status){
+						case 200:
+							return response.json()
+								.then(data => next(action.onSuccess(data)))
+								.catch(err => next(action.onFailure()));
+							break;
+
+						case 401:
+							return next(action.onFailure());
+							break;
+
+						default:
+							return next(action.onFailure());
+							break;
+					}
+				})
+				.catch(err => next(action.onFailure()))
+	};
+
 	return store => next => action => {
 		next(action);
 
@@ -79,6 +113,9 @@ export default function createHalfpenApiCaller(params){
 			case API.LOGOUT:
 				logout(store, next, action);
 				break;
+
+			case API.CALL:
+				return call(store, next, action);
 
 			default:
 				break;
