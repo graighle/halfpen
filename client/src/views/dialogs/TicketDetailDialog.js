@@ -46,9 +46,20 @@ class TicketDetailDialog {
 	}
 
 	save(data){
-		this.options.addTicket({
-			title: data.title,
-		});
+		let self = this;
+		this.options
+			.addTicket({
+				title: data.title,
+			})
+			.then(x => {
+				self.dialog.close();
+				if(x.success === true){
+					self.dialog.value = false;
+					self.dialog.close();
+				}else{
+					alert('FAILED');
+				}
+			});
 	}
 
 };

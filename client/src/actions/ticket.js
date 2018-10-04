@@ -1,12 +1,11 @@
 import { API } from '../middleware/HalfpenApiCaller';
 
 export const TicketActions = {
-	ADD: 'ADD_TICKET',
 	ADD_SUCCESS: 'ADD_TICKET_SUCCESS',
 	ADD_FAILURE: 'ADD_TICKET_FAILURE',
 };
 
-export const addTicket = (ticket) => ({
+export const addTicket = ticket => ({
 	type: API.CALL,
 	api: 'tickets',
 	method: 'POST',
@@ -17,11 +16,13 @@ export const addTicket = (ticket) => ({
 
 const addTicketSuccess = ticket => ({
 	type: TicketActions.ADD_SUCCESS,
+	success: true,
 	ticket,
 });
 
 const addTicketFailure = error => ({
 	type: TicketActions.ADD_FAILURE,
+	success: false,
 	error,
 });
 

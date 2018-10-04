@@ -19,8 +19,8 @@ const loggerMiddleware = createLogger();
 const store = createStore(
 	rootReducer,
 	applyMiddleware(
-		thunkMiddleware,
 		halfpenApiCaller,
+		thunkMiddleware,
 		loggerMiddleware
 	)
 );

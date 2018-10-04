@@ -76,31 +76,25 @@ export default function createHalfpenApiCaller(params){
 			body: JSON.stringify(action.data),
 		};
 
-		return
-			fetch(options.url + action.api, fetchOptions)
-				.then(response => {
-					switch(response.status){
-						case 200:
-							return response.json()
-								.then(data => next(action.onSuccess(data)))
-								.catch(err => next(action.onFailure()));
-							break;
+		return fetch(options.url + action.api, fetchOptions)
+			.then(response => {
+				switch(response.status){
+					case 200:
+						return response.json()
+							.then(data => next(action.onSuccess(data)))
+							.catch(err => next(action.onFailure(err)));
 
-						case 401:
-							return next(action.onFailure());
-							break;
+					case 401:
+						return next(action.onFailure());
 
-						default:
-							return next(action.onFailure());
-							break;
-					}
-				})
-				.catch(err => next(action.onFailure()))
+					default:
+						return next(action.onFailure());
+				}
+			})
+			.catch(err => next(action.onFailure()));
 	};
 
 	return store => next => action => {
-		next(action);
-
 		switch(action.type){
 			case API.LOGIN:
 				login(store, next, action);
@@ -118,6 +112,7 @@ export default function createHalfpenApiCaller(params){
 				return call(store, next, action);
 
 			default:
+				next(action);
 				break;
 		}
 	};
