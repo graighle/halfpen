@@ -3,8 +3,12 @@ import { Collections, collection } from '../lib/mongo';
 
 export function addTicket(req, res, next){
 
+	const data = Object.assign({}, res.body, {
+		created: new Date(),
+	});
+
 	collection(Collections.TICKETS)
-		.insertOne(req.body)
+		.insertOne(data)
 		.then(ret => {
 			res.send(ret.ops[0]);
 		})
