@@ -15,7 +15,7 @@ export function getTickets(req, res, next){
 
 export function addTicket(req, res, next){
 
-	const data = Object.assign({}, res.body, {
+	const data = Object.assign({}, req.body, {
 		created: new Date(),
 	});
 
