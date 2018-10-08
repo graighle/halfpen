@@ -1,6 +1,18 @@
 import { newAuthenticationError } from '../lib/ErrorResponse';
 import { Collections, collection } from '../lib/mongo';
 
+export function getTickets(req, res, next){
+
+	collection(Collections.TICKETS)
+		.find({})
+		.toArray()
+		.then(tickets => {
+			res.send(tickets);
+		})
+		.catch(next);
+
+}
+
 export function addTicket(req, res, next){
 
 	const data = Object.assign({}, res.body, {
