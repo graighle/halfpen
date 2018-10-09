@@ -19,8 +19,19 @@ export function addTicket(req, res, next){
 		created: new Date(),
 	});
 
-	collection(Collections.TICKETS)
-		.insertOne(data)
+	let ticket_id = null;
+
+	collection(Collections.COUNTERS)
+		.findOneAndUpdate({name: 'ticket_id'}, {$inc: {value: 1}}, {returnOriginal:false})
+		.then(ret => {
+			ticket_id = ret.value.value;
+			return collection(Collections.TICKETS)
+				.insertOne({
+					id: ticket_id,
+					created: new Date(),
+					...req.body,
+				});
+		})
 		.then(ret => {
 			res.send(ret.ops[0]);
 		})

@@ -4,6 +4,7 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'halfpen';
 
 export const Collections = {
+	COUNTERS: 'counters',
 	USERS: 'users',
 	TICKETS: 'tickets',
 };
