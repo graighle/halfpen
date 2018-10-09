@@ -66,17 +66,27 @@ export default function createHalfpenApiCaller(params){
 	};
 
 	const call = (store, next, action) => {
-		const fetchOptions = {
+		let queries = '';
+		let fetchOptions = {
 			method: action.method,
 			headers: {
 				'Accept': 'application/json',
-				'Content-type': 'application/json',
 				'Authorization': 'Bearer ' + accessToken,
 			},
-			body: JSON.stringify(action.data),
 		};
 
-		return fetch(options.url + action.api, fetchOptions)
+		if(fetchOptions.method === 'GET'){
+			queries += Object.keys(action.data || {})
+				.map(k => encodeURIComponent(k) + '=' + encodeURIComponent(action.data[k]))
+				.join('&');
+			if(queries !== '')
+				queries = '?' + queries;
+		}else{
+			fetchOptions.headers['Content-type'] = 'application/json';
+			fetchOptions.body = JSON.stringify(action.data);
+		}
+
+		return fetch(options.url + action.api + queries, fetchOptions)
 			.then(response => {
 				switch(response.status){
 					case 200:
